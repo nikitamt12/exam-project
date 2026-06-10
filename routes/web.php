@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +15,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware('auth')->group(function () {
 
+    Route::get('/application/create',
+        [ApplicationController::class, 'create']);
+
+    Route::post('/application/create',
+        [ApplicationController::class, 'store']);
+
+    Route::get('/my-applications',
+        [ApplicationController::class, 'index']);
+});
+
+Route::get('/admin',
+    [AdminController::class, 'index']);
+
+Route::post('/admin/{id}',
+    [AdminController::class, 'changeStatus']);
 Route::get('/', function () {
     return view('welcome');
 });
